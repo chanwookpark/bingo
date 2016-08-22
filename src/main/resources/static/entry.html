@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>대기방</title>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null;
+        var connected = false;
+
+        // receive message to 'add user'
+        receiveAddUserMessage();
+
+        function receiveAddUserMessage() {
+            var socket = new SockJS('/addUser.m');
+            stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                setConnected(true);
+                console.log('Connected(addUser.m): ' + frame);
+                stompClient.subscribe('/queue/addUser.m', function (res) {
+                    var userId = JSON.parse(res.body).userId;
+                    addUserToEntry(userId);
+                    console.log("[S] add user : " + userId);
+                });
+            });
+        }
+
+        function addUserToEntry(userId) {
+            var entry = document.getElementById("entry");
+            var user = document.createElement("li");
+            user.appendChild(document.createTextNode(userId));
+            entry.appendChild(user);
+        }
+
+        function setConnected(chaged) {
+            connected = chaged;
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+    </script>
+</head>
+<body>
+<h1>접속정보</h1>
+<p>
+    ID: <b id="userId">{loginUser.userId}</b> <br/>
+    전적 등...
+</p>
+<h1>접속한 사람들..</h1>
+<ul id="entry">
+    {#users}
+    <li>{userId}</li>
+    {/users}
+</ul>
+</body>
+</html>

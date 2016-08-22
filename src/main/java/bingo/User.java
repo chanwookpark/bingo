@@ -1,19 +1,28 @@
 package bingo;
 
-import lombok.Getter;
-
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 
 /**
  * @author chanwook
  */
-@Getter
-public class User {
+//@Getter
+//@ToString
+public class User implements Serializable {
+
     private static final String USER_SESSION_KEY = "_bingo_user";
 
-    private final String userId;
+    private String userId;
 
     public User(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -18,6 +18,7 @@ function render(template, model, url) {
     // Java object to JavaScript object
     var jsonObject = convertToJsonObject(model);
 
+    console.log("VIEW JSON : " + model);
     /*
     console.log(
         "'" + url + "' template is ready to rendering!\n" +
@@ -26,7 +27,7 @@ function render(template, model, url) {
         + model + "\n"
         + "=============================================================");
     */
-    
+
     // Render
     // Dust is basically asynchronously then this code has potentially issue with synchronous..
     var res;

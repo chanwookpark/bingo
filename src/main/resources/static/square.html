@@ -19,8 +19,8 @@
 <ul id="userList">
     {#users}
     <li>
-        {userId}
-        <button value="배틀이다!" onclick="requestToGame('{userId}')"/>
+        <b>{userId}</b>
+        <button name="배틀이다!" onclick="requestToGame('{userId}')"/>
     </li>
     {/users}
 </ul>

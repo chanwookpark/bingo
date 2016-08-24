@@ -2,40 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>대기방</title>
+    <title>입장하기</title>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"
             integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
-    <script src="sockjs-0.3.4.js"></script>
-    <script src="stomp.js"></script>
-    <script src="websocket.js"></script>
 </head>
 <body>
-<h1>접속정보</h1>
-<p>
-    ID: <input id="userId" type="text" value="{loginUser.userId}"/> <br/>
-    전적 등...
-</p>
-<h1>접속한 사람들..</h1>
-<ul id="entry">
-    {#users}
-    <li>
-        {userId}
-        <button value="배틀이다!" onclick="requestToGame('{userId}')"/>
-    </li>
-    {/users}
-</ul>
-
-<script type="text/javascript">
-
-    var stompClient = connect();
-    stompClient.connect({}, function (frame) {
-        console.log('### Start Connect ###\n' + frame);
-
-        subscribeAddUser(stompClient);
-        subscribeGameRequest(stompClient);
-    });
-
-    //TODO disconnect 추가
-</script>
+<h1>입장하기</h1>
+<form action="/entry" method="POST">
+    <input type="text" name="userId" placeholder="이름을 입력해주세요">
+    <input type="submit" value="입장하기">
+</form>
 </body>
 </html>

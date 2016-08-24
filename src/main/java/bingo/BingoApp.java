@@ -25,7 +25,7 @@ public class BingoApp extends SpringBootServletInitializer {
 
     @RequestMapping("/")
     String index() {
-        return "redirect:/entry.v";
+        return "redirect:/entry";
     }
 
 }

@@ -14,7 +14,7 @@ function subscribeAddUser(stompClient) {
 }
 
 function renderAddedUser(userId) {
-    var entry = document.getElementById("entry");
+    var entry = document.getElementById("userList");
     var user = document.createElement("li");
     user.appendChild(document.createTextNode(userId));
     entry.appendChild(user);

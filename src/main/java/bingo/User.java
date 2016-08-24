@@ -1,13 +1,16 @@
 package bingo;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
 /**
  * @author chanwook
  */
-//@Getter
-//@ToString
+@Getter
+@ToString
 public class User implements Serializable {
 
     private static final String USER_SESSION_KEY = "_bingo_user";
@@ -18,29 +21,21 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public static User findUser(HttpSession session) {
         final Object user = session.getAttribute(USER_SESSION_KEY);
 
         if (user != null && user instanceof User) {
             return (User) user;
         } else {
-            User createdUser = createUser(session);
-            session.setAttribute(USER_SESSION_KEY, createdUser);
-            return createdUser;
+            return null;
         }
     }
 
-    public static User createUser(HttpSession session) {
-        //TODO id 발행 로직 개선
-        String userId = "사용자-" + System.nanoTime();
-        return new User(userId);
+    public static boolean isEntered(HttpSession session) {
+        return session.getAttribute(USER_SESSION_KEY) != null;
+    }
+
+    public static void enterUser(HttpSession session, User user) {
+        session.setAttribute(USER_SESSION_KEY, user);
     }
 }

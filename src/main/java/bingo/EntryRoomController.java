@@ -36,7 +36,7 @@ public class EntryRoomController {
             logger.info("새로운 사용자 입장 ({})", loginUser);
             userMap.put(loginUser.getUserId(), loginUser);
 
-            messagingTemplate.convertAndSend("/queue/addUser.m", loginUser);
+            messagingTemplate.convertAndSend("/topic/user/add", loginUser);
         } else {
             logger.info("이미 등록된 사용자입니다 ({})", loginUser);
         }

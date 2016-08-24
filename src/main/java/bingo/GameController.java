@@ -21,18 +21,18 @@ public class GameController {
     @Autowired
     SimpMessagingTemplate messagingTemplate;
 
-    @RequestMapping("/game-ground.v")
+    @RequestMapping("/game")
     public String mainGround() {
         return "game";
     }
 
-    @RequestMapping("/game-request")
+    @RequestMapping("/game/request")
     @ResponseBody
     public HttpStatus requestToStartGame(@RequestParam("user") String requestUserId,
                                          @RequestParam("opponent") String opponentUserId) {
 
         // TODO /user/{username}/queue/position-updates 이렇게 해야 함.
-        messagingTemplate.convertAndSend("/queue/gameRequest-" + opponentUserId, new GameRequest(requestUserId, opponentUserId));
+        messagingTemplate.convertAndSend("/queue/game/request-" + opponentUserId, new GameRequest(requestUserId, opponentUserId));
 
         logger.info("[게임 요청]요청보낸사람: {}, 요청받는사람: {}", requestUserId, opponentUserId);
 

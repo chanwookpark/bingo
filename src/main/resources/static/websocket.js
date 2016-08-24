@@ -25,10 +25,13 @@ function renderAddedUser(userId) {
 }
 
 function subscribeGameRequest(stompClient) {
-    console.log('### Subscribe gameRequest ###');
+    var me = resolveMyUserId();
 
-    stompClient.subscribe('/user/queue/game-request', function (res) {
-        var requestUserId = JSON.parse(res.body).userId;
+    console.log('### Subscribe gameRequest (' + me + ')###');
+
+    stompClient.subscribe('/queue/game/request-' + me, function (res) {
+        var requestUserId = JSON.parse(res.body).requestUserId;
+        
         handleGameRequest(requestUserId);
     });
 }
@@ -37,18 +40,23 @@ function handleGameRequest(requestUserId) {
     var accept = confirm(requestUserId + "님으로부터 게임 요청이 왔습니다.");
     if (accept) {
         console.log(requestUserId + "님과 게임 하러 이동합니다..")
-        window.location.href = "/game-ground.v";
+        window.location.href = "/game/";
     } else {
         console.log(requestUserId + "님과 게임을 하지 않겠다고함..")
     }
 }
 
-function requestToGame(opponentUserId) {
+function resolveMyUserId() {
     var me = document.getElementById("myUserId").value;
+    return me;
+}
+
+function requestToGame(opponentUserId) {
+    var me = resolveMyUserId();
 
     $.ajax({
         method: "POST",
-        url: "/game-request",
+        url: "/game/request",
         data: {user: me, opponent: opponentUserId}
     })
         .done(function (msg) {

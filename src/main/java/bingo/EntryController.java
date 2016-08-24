@@ -25,7 +25,7 @@ public class EntryController {
     @RequestMapping(value = "/entry", method = RequestMethod.GET)
     public String entryView(HttpSession session, ModelMap model) {
 
-        if (User.isEntered(session)) {
+        if (UserHandler.isEntered(session)) {
             return "redirect:/square";
         } else {
             return "entry";
@@ -38,7 +38,7 @@ public class EntryController {
         final User user = new User(userId);
 
         // TODO 함수 합치기
-        User.enterUser(session, user);
+        UserHandler.enterUser(session, user);
         userRepository.addUser(user);
 
         messagingTemplate.convertAndSend("/topic/user/add", user);

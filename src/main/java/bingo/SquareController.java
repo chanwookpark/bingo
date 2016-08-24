@@ -23,10 +23,10 @@ public class SquareController {
 
     @RequestMapping("/square")
     public String entry(HttpSession session, ModelMap model) {
-        if (!User.isEntered(session)) {
+        if (!UserHandler.isEntered(session)) {
             return "redirect:/entry";
         }
-        final User loginUser = User.findUser(session);
+        final User loginUser = UserHandler.getUser(session);
         final Collection<User> allUser = userRepository.getAllUserExceptMe(loginUser);
 
         logger.debug("로그인한 사용자 수 - {}", allUser.size());

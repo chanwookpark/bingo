@@ -14,10 +14,14 @@ function subscribeAddUser(stompClient) {
 }
 
 function renderAddedUser(userId) {
-    var entry = document.getElementById("userList");
-    var user = document.createElement("li");
-    user.appendChild(document.createTextNode(userId));
-    entry.appendChild(user);
+    var entryUl = document.getElementById("userList");
+    var userLi = document.createElement("li");
+    var gameRequestButton = document.createElement("button");
+    gameRequestButton.addEventListener("click", requestToGame);
+
+    userLi.appendChild(document.createTextNode(userId));
+    userLi.appendChild(gameRequestButton);
+    entryUl.appendChild(userLi);
 }
 
 function subscribeGameRequest(stompClient) {
@@ -40,6 +44,8 @@ function handleGameRequest(requestUserId) {
 }
 
 function requestToGame(opponentUserId) {
+    var me = document.getElementById("myUserId").value;
+
     $.ajax({
         method: "POST",
         url: "/game-request",
